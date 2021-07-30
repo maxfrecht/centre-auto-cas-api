@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     attributes: ['security' => "is_granted('ROLE_USER')"],
     normalizationContext: ['groups' => 'annonce:get']
 )]
-#[ApiFilter(SearchFilter::class, properties:['typeCarburant.libelle' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties:['typeCarburant.libelle' => 'exact', 'marque.nom' => 'exact', 'modele.nom' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['kilometrage', 'anneeCirculation', 'prix'])]
 class Annonce
 {
