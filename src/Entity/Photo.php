@@ -5,11 +5,14 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    attributes: ['security' => "is_granted('ROLE_USER')"]
+)]
 class Photo
 {
     /**
@@ -17,22 +20,35 @@ class Photo
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $cheminAcces;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $ordre;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annonce::class, inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
+
     private $annonce;
 
     public function getId(): ?int

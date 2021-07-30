@@ -7,11 +7,25 @@ use App\Repository\TypeCarburantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TypeCarburantRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => ['normalization_context' => ['groups' => ['carburant:get:collection']]],
+        'post' => ['security' => "is_granted('ROLE_ADMIN')"]
+    ],
+    itemOperations: [
+        'get',
+        'put' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    attributes: ['security' => "is_granted('ROLE_USER')"],
+    normalizationContext: ['groups' => ['carburant:get']]
+)]
 class TypeCarburant
 {
     /**
@@ -19,16 +33,29 @@ class TypeCarburant
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection',
+        'carburant:get',
+        'carburant:get:collection'
+    ])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection',
+        'carburant:get',
+        'carburant:get:collection'
+    ])]
     private $libelle;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="typeCarburant")
      */
+    #[Groups(['carburant:get'])]
     private $annonces;
 
     public function __construct()

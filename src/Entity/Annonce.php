@@ -15,11 +15,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get' => ['normalization_context' => ['groups' => ['annonce:get:collection']]]],
-    itemOperations: ['get'],
-    normalizationContext: ['groups' => ['annonce:get']]
+    collectionOperations: [
+        'get' => ['normalization_context' => ['groups' => 'annonce:get:collection']],
+        'post',
+    ],
+    itemOperations: ['get', 'put', 'delete', 'patch'],
+    attributes: ['security' => "is_granted('ROLE_USER')"],
+    normalizationContext: ['groups' => 'annonce:get']
 )]
-#[ApiFilter(RangeFilter::class, properties:['kilometrage', 'anneeCirculation', 'prix'])]
+#[ApiFilter(RangeFilter::class, properties: ['kilometrage', 'anneeCirculation', 'prix'])]
 class Annonce
 {
     /**
@@ -30,7 +34,9 @@ class Annonce
     #[Groups([
         'annonce:get',
         'annonce:get:collection',
-        'modele:get'
+        'modele:get',
+        'carburant:get',
+        'garage:get'
     ])]
     private $id;
 
@@ -40,7 +46,10 @@ class Annonce
     #[Groups([
         'annonce:get',
         'annonce:get:collection',
-        'modele:get'])]
+        'modele:get',
+        'carburant:get',
+        'garage:get'
+    ])]
     private $titre;
 
     /**

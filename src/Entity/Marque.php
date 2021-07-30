@@ -14,12 +14,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' =>
-        [
-            'normalization_context' => ['groups' => 'marque:get:collection']
-        ]
+        'get' => ['normalization_context' => ['groups' => 'marque:get:collection']],
+        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
-    itemOperations: ['get'],
+    itemOperations: [
+        'get',
+        'put' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    attributes: ['security' => "is_granted('ROLE_USER')"],
     normalizationContext: ['groups' => ['marque:get']],
 )]
 class Marque

@@ -13,8 +13,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ModeleRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get' => ['normalization_context' => ['groups' => ['modele:get:collection']]]],
-    itemOperations: ['get'],
+    collectionOperations: [
+        'get' => ['normalization_context' => ['groups' => ['modele:get:collection']]],
+        'post' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    itemOperations: [
+        'get',
+        'put' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
+        'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
+    ],
+    attributes: ['security' => "is_granted('ROLE_USER')"],
     normalizationContext: ['groups' => ['modele:get']]
 )]
 class Modele
@@ -27,7 +36,8 @@ class Modele
     #[Groups([
         'annonce:get',
         'annonce:get:collection',
-        'marque:get','modele:get',
+        'marque:get',
+        'modele:get',
         'modele:get:collection'
     ])]
     private $id;

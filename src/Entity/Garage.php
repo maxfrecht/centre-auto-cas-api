@@ -7,11 +7,20 @@ use App\Repository\GarageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GarageRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => ['normalization_context' => ['groups' => 'garage:get:collection']],
+        'post',
+    ],
+    itemOperations: ['get', 'put', 'delete', 'patch'],
+    attributes: ['security' => "is_granted('ROLE_USER')"],
+    normalizationContext: ['groups' => 'garage:get']
+)]
 class Garage
 {
     /**
@@ -19,33 +28,59 @@ class Garage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups([
+        'garage:get',
+        'garage:get:collection',
+        'adresse:get',
+        'user:get'
+    ])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups([
+        'garage:get',
+        'garage:get:collection',
+        'adresse:get',
+        'user:get'
+    ])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=15)
      */
+    #[Groups([
+        'garage:get',
+        'garage:get:collection'
+    ])]
     private $numeroTel;
 
     /**
      * @ORM\OneToMany(targetEntity=Annonce::class, mappedBy="garage")
      */
+    #[Groups([
+        'garage:get'
+    ])]
     private $annonces;
 
     /**
      * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="garages")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'garage:get'
+    ])]
     private $adresse;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="garages")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups([
+        'garage:get',
+        'garage:get:collection'
+    ])]
     private $user;
 
     public function __construct()
