@@ -27,31 +27,47 @@ class Annonce
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection',
+        'modele:get'
+    ])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection',
+        'modele:get'])]
     private $titre;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $description;
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $prix;
 
     /**
      * @ORM\Column(type="integer")
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $kilometrage;
 
     /**
@@ -63,7 +79,10 @@ class Annonce
     /**
      * @ORM\Column(type="integer")
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $anneeCirculation;
 
     /**
@@ -76,20 +95,29 @@ class Annonce
      * @ORM\ManyToOne(targetEntity=Modele::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $modele;
 
     /**
      * @ORM\ManyToOne(targetEntity=TypeCarburant::class, inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $typeCarburant;
 
     /**
      * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="annonce")
      */
-    #[Groups(['annonce:get', 'annonce:get:collection'])]
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection'
+    ])]
     private $photos;
 
     /**

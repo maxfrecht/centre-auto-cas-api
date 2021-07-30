@@ -7,11 +7,21 @@ use App\Repository\MarqueRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MarqueRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' =>
+        [
+            'normalization_context' => ['groups' => 'marque:get:collection']
+        ]
+    ],
+    itemOperations: ['get'],
+    normalizationContext: ['groups' => ['marque:get']],
+)]
 class Marque
 {
     /**
@@ -19,16 +29,33 @@ class Marque
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection',
+        'marque:get',
+        'marque:get:collection',
+        'modele:get',
+        'modele:get:collection'
+    ])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups([
+        'annonce:get',
+        'annonce:get:collection',
+        'marque:get',
+        'marque:get:collection',
+        'modele:get',
+        'modele:get:collection'
+    ])]
     private $nom;
 
     /**
      * @ORM\OneToMany(targetEntity=Modele::class, mappedBy="marque")
      */
+    #[Groups(['marque:get'])]
     private $modeles;
 
     public function __construct()
