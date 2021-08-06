@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
@@ -44,6 +45,15 @@ class Annonce
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 8,
+     *     max= 255,
+     *     minMessage = "Ce champ doit faire 8 charactères minimum",
+     *     maxMessage="Ce champ ne peut pas exceder 255 charactères"
+     * )
      */
     #[Groups([
         'annonce:get',
@@ -56,6 +66,15 @@ class Annonce
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 30,
+     *     max= 4500,
+     *     minMessage = "Ce champ doit faire 30 charactères minimum",
+     *     maxMessage="Ce champ ne peut pas exceder 4500 charactères"
+     * )
      */
     #[Groups([
         'annonce:get',
@@ -65,6 +84,10 @@ class Annonce
 
     /**
      * @ORM\Column(type="decimal", precision=7, scale=2)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\GreaterThanOrEqual(100)
      */
     #[Groups([
         'annonce:get',
@@ -74,6 +97,10 @@ class Annonce
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\GreaterThanOrEqual(100)
      */
     #[Groups([
         'annonce:get',
@@ -83,12 +110,24 @@ class Annonce
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 10,
+     *     max= 10,
+     *     exactMessage="Ce champt doit faire 10 charactères"
+     * )
      */
     #[Groups(['annonce:get'])]
     private $reference;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\LessThan("today")
      */
     #[Groups([
         'annonce:get',
@@ -98,6 +137,10 @@ class Annonce
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\GreaterThanOrEqual(100)
      */
     #[Groups(['annonce:get'])]
     private $prixEffectifVente;
@@ -124,6 +167,12 @@ class Annonce
 
     /**
      * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="annonce")
+     * @Assert\Count(
+     *     min=1,
+     *     max=10,
+     *     minMessage="Il faut renseigner au moins une photo",
+     *     maxMessage="Il faut renseigner au maximum 10 photos"
+     * )
      */
     #[Groups([
         'annonce:get',

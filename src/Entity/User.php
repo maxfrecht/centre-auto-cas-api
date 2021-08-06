@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -48,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message= "L'email '{{ value }}' n'est pas valide"
+     * )
      */
     #[Groups([
         'garage:get',
@@ -76,6 +80,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 2,
+     *     max= 255,
+     *     minMessage = "Ce champ doit faire 2 charactères minimum",
+     *     maxMessage="Ce champ ne peut pas exceder 255 charactères"
+     * )
      */
     #[Groups([
         'garage:get',
@@ -86,6 +99,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 2,
+     *     max= 255,
+     *     minMessage = "Ce champ doit faire 2 charactères minimum",
+     *     maxMessage="Ce champ ne peut pas exceder 255 charactères"
+     * )
      */
     #[Groups([
         'garage:get',
@@ -96,6 +118,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\Length(
+     *     min = 15,
+     *     max= 15,
+     *     exactMessage="Un numéro de téléphone doit faire 15 charactères"
+     * )
      */
     #[Groups([
         'garage:get',
@@ -105,6 +132,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=14, nullable=true)
+     * @Assert\Length(
+     *     min = 14,
+     *     max= 14,
+     *     exactMessage="Un numéro de SIRET doit faire 14 charactères"
+     * )
      */
     #[Groups([
         'user:get'

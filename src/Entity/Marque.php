@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MarqueRepository::class)
@@ -45,6 +46,15 @@ class Marque
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 2,
+     *     max= 255,
+     *     minMessage = "Ce champ doit faire 2 charactères minimum",
+     *     maxMessage="Ce champ ne peut pas exceder 255 charactères"
+     * )
      */
     #[Groups([
         'annonce:get',
@@ -58,6 +68,10 @@ class Marque
 
     /**
      * @ORM\OneToMany(targetEntity=Modele::class, mappedBy="marque")
+     * @Assert\Count(
+     *     min=1,
+     *     minMessage="Il faut renseigner au moins un modèle",
+     * )
      */
     #[Groups(['marque:get'])]
     private $modeles;

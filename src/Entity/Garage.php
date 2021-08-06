@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=GarageRepository::class)
@@ -38,6 +39,15 @@ class Garage
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 2,
+     *     max= 255,
+     *     minMessage = "Ce champ doit faire 2 charactères minimum",
+     *     maxMessage="Ce champ ne peut pas exceder 255 charactères"
+     * )
      */
     #[Groups([
         'garage:get',
@@ -49,6 +59,14 @@ class Garage
 
     /**
      * @ORM\Column(type="string", length=15)
+     * @Assert\NotNull(
+     *     message="Ce champ est obligatoire"
+     * )
+     * @Assert\Length(
+     *     min = 15,
+     *     max= 15,
+     *     exactMessage="Un numéro de téléphone doit faire 15 charactères"
+     * )
      */
     #[Groups([
         'garage:get',
