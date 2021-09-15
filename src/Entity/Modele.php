@@ -24,7 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         'delete' => ['security' => "is_granted('ROLE_ADMIN')"],
         'patch' => ['security' => "is_granted('ROLE_ADMIN')"],
     ],
-    attributes: ['security' => "is_granted('ROLE_USER')"],
     normalizationContext: ['groups' => ['modele:get']]
 )]
 class Modele

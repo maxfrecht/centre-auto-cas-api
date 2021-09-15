@@ -10,9 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
  */
-#[ApiResource(
-    attributes: ['security' => "is_granted('ROLE_USER')"]
-)]
+#[ApiResource()]
 class Photo
 {
     /**

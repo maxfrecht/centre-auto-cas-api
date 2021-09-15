@@ -22,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post',
     ],
     itemOperations: ['get', 'put', 'delete', 'patch'],
-    attributes: ['security' => "is_granted('ROLE_USER')"],
     normalizationContext: ['groups' => 'annonce:get']
 )]
 #[ApiFilter(SearchFilter::class, properties:['typeCarburant.libelle' => 'exact', 'marque.nom' => 'exact', 'modele.nom' => 'exact'])]
@@ -137,10 +136,8 @@ class Annonce
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
-     * @Assert\NotNull(
-     *     message="Ce champ est obligatoire"
-     * )
      * @Assert\GreaterThanOrEqual(100)
+     * @ORM\JoinColumn(nullable=true)
      */
     #[Groups(['annonce:get'])]
     private $prixEffectifVente;
