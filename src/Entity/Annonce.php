@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\MongoDbOdm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     itemOperations: ['get', 'put', 'delete', 'patch'],
     normalizationContext: ['groups' => 'annonce:get']
 )]
-#[ApiFilter(SearchFilter::class, properties:['typeCarburant.libelle' => 'exact', 'marque.nom' => 'exact', 'modele.nom' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties:['typeCarburant.libelle' => 'exact', 'marque.nom' => 'exact', 'modele.nom' => 'exact', 'modele.marque.nom' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['kilometrage', 'anneeCirculation', 'prix'])]
 class Annonce
 {
