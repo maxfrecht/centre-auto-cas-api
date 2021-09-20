@@ -25,4 +25,4 @@ services:
     # please note that last definitions always *replace* previous ones
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
-        autoconfigure: false
+        arguments: ['@.inner']

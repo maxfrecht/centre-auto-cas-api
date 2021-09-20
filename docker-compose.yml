@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  webback:
+    image: symfony-api-bluesjack:latest
+    ports:
+      - 8081:80
+  db:
+    image: jsurf/rpi-mariadb
+    volumes:
+      - ./bluesajckdb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=damien
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=bcbluesjack
